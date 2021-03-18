@@ -1,0 +1,14 @@
+
+.container{
+    margin: 0px auto;
+}
+
+h4, p{
+    display: inline-block;
+}
+
+.log{
+    height: 300px;
+    width: 1290px;
+    overflow: auto;
+}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>The Ninja's Gold</title>
+</head>
+
+<body>
+    <div class="container mt-2">
+        <div class="d-flex justify-content-between">
+            <h4 class="bg-dark border rounded text-white mt-2 p-2 ms-3">Your Gold: <p class="text-warning">{{request.session.total_gold}}</p></h4>
+            <form action="/reset" method="POST">
+                {% csrf_token %}
+                <input type="submit" class="btn btn-info btn-lg me-3 mt-2" value="Play Again">
+            </form>
+        </div>
+        <div class="container mt-3 d-flex justify-content-between">
+            <div class="form-group">
+                <form action="/process_money" method="post" class="border rounded text-center p-5 bg-secondary">
+                    {% csrf_token %}
+                    <div>
+                        <h4 class="text-default">Farm<br>10-20 GOLD</h4>
+                        <br><br>
+                        <input type="hidden" name="building" value="farm">
+                        <input type="submit" class="btn btn-warning btn-lg text-dark" value="Find Gold">
+                    </div>
+                </form>
+            </div>
+            <div class="form-group">
+                <form action="/process_money" method="post" class="border rounded text-center p-5 bg-secondary">
+                    {% csrf_token %}
+                    <div>
+                        <h4 class="text-default">Cave<br>5-10 GOLD</h4>
+                        <br><br>
+                        <input type="hidden" name="building" value="cave">
+                        <input type="submit" class="btn btn-warning btn-lg text-dark" value="Find Gold">
+                    </div>
+                </form>
+            </div>
+            <form action="/process_money" method="post" class="border rounded text-center p-5 bg-secondary">
+                {% csrf_token %}
+                <div>
+                    <h4 class="text-default">House<br>2-5 GOLD</h4>
+                    <br><br>
+                    <input type="hidden" name="building" value="house">
+                    <input type="submit" class="btn btn-warning btn-lg text-dark" value="Find Gold">
+                </div>
+            </form>
+            <div class="form-group">
+                <form action="/process_money" method="post" class="border rounded text-center p-5 bg-secondary">
+                    {% csrf_token %}
+                    <div>
+                        <h4 class="text-default">Casino<br>(Earn/Lose)<br>0-50 GOLD</h4>
+                        <br><br>
+                        <input type="hidden" name="building" value="casino">
+                        <input type="submit" class="btn btn-warning btn-lg" value="Find Gold">
+                    </div>
+                </form>
+            </div>
+        </div><!--form-container ends-->
+        <br>
+        <div class="row">
+            <h3 class="text-default ms-3">Activities:</h3>
+            <div class="log border border-primary p-2 ms-2">
+                {% for log in request.session.activities %}
+                    {% if "lost" in log %}
+                        <h4 class="text-danger">{{log}}</h4>
+                    {% else %}
+                        <h4 class="text-success">{{log}}</h4>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div><!--container ends-->
+</body>
+
+</html>
